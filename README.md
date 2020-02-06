@@ -316,20 +316,68 @@ OK
 "105.66"
 ```
 
-##### MGET key [key ...] - Get the values of all the given keys
+##### MGET key [key ...] - Get the values of all the given keys | Time complexity: O(N)
 ```
-```
-
-##### MSET key value [key value ...] - Set multiple keys to multiple values
-```
-```
-
-##### MSETNX key value [key value ...] - Set multiple keys to multiple values, only if none of the keys exist
-```
+127.0.0.1:6379> mget key1 key2 token noexiste myFloat
+1) "fooo"
+2) "buuu"
+3) "Hola Mundo"
+4) (nil)
+5) "105.66"
 ```
 
-##### PSETEX key milliseconds value - Set the value and expiration in milliseconds of a key
+##### MSET key value [key value ...] - Set multiple keys to multiple values | Time complexity: O(N)
 ```
+127.0.0.1:6379> mset key1 0 key2 2 token 3 noexist 4 myFloat 5
+OK
+127.0.0.1:6379> mget key1 key2 token noexist noexiste myFloat
+1) "0"
+2) "2"
+3) "3"
+4) "4"
+5) (nil)
+6) "5"
+```
+
+##### MSETNX key value [key value ...] - Set multiple keys to multiple values, only if none of the keys exist | Time complexity: O(N)
+```
+127.0.0.1:6379> msetnx key1 hola key2 mundo key3 !
+(integer) 0
+127.0.0.1:6379> mget key1 key2 key3
+1) "0"
+2) "buuu"
+3) (nil)
+127.0.0.1:6379> msetnx key1 hola key2 mundo
+(integer) 0
+127.0.0.1:6379> msetnx key1 "hola" key2 "mundo"
+(integer) 0
+127.0.0.1:6379> get key1
+"0"
+127.0.0.1:6379> get key2
+"buuu"
+127.0.0.1:6379> msetnx p1 0
+(integer) 1
+127.0.0.1:6379> msetnx p2 2
+(integer) 1
+127.0.0.1:6379> msetnx newVar1 hola newVar2 Mundo
+(integer) 1
+127.0.0.1:6379> mget newVar1 newVar2
+1) "hola"
+2) "Mundo"
+```
+
+##### PSETEX key milliseconds value - Set the value and expiration in milliseconds of a key | Time complexity: O(1)
+```
+127.0.0.1:6379> psetex p 5000 password
+OK
+127.0.0.1:6379> get p
+"password"
+127.0.0.1:6379> get p
+"password"
+127.0.0.1:6379> get p
+(nil)
+127.0.0.1:6379> get p
+(nil)
 ```
 
 ##### SET key value [EX seconds|PX milliseconds] [NX|XX] [KEEPTTL] - Set the string value of a key
