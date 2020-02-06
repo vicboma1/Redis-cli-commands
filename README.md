@@ -70,13 +70,33 @@ OK
 127.0.0.1:6379> get var
 "1986-02-04"
 ```
+
 ##### BITCOUNT key [start end] - Count set bits in a string
 ```
+27.0.0.1:6379> set var3 "vicboma1"
+OK
+127.0.0.1:6379> get var3
+"vicboma1"
+127.0.0.1:6379> set var vicboma1
+OK
+127.0.0.1:6379> get var3
+"vicboma1"
+127.0.0.1:6379> bitcount var3
+(integer) 33
+127.0.0.1:6379> bitcount var3 0 0
+(integer) 5
+127.0.0.1:6379> bitcount var3 1 1
+(integer) 4
+127.0.0.1:6379> bitcount var3 0 8
+(integer) 33
 ```
+
 ##### BITFIELD key [GET type offset] [SET type offset value] [INCRBY type offset increment] [OVERFLOW WRAP|SAT|FAIL]
 Perform arbitrary bitfield integer operations on strings
+``
+
 ```
-```
+
 ##### BITOP operation destkey key [key ...] - Perform bitwise operations between strings
 ```
 ```
