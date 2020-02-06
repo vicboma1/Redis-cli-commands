@@ -123,27 +123,151 @@ OK
 "0123456789\x00\x00\x03\x80"
 ```
 
-##### BITOP operation destkey key [key ...] - Perform bitwise operations between strings
+##### BITOP operation destkey key [key ...] - Perform bitwise operations between strings | Time complexity: O(N)
 ```
+127.0.0.1:6379> set key1 fooo
+OK
+127.0.0.1:6379> get key1
+"fooo"
+127.0.0.1:6379> set key2 buuu
+OK
+127.0.0.1:6379> get key2
+"buuu"
+127.0.0.1:6379> bitop AND dest key1 key2
+(integer) 4
+127.0.0.1:6379> get dest
+"beee"
+127.0.0.1:6379> get key1
+"fooo"
+127.0.0.1:6379> get key2
+"buuu"
+127.0.0.1:6379> bitop OR dest2 key1 key2
+(integer) 4
+127.0.0.1:6379> get dest2
+"f\x7f\x7f\x7f"
+127.0.0.1:6379> get keu1
+(nil)
+127.0.0.1:6379> get key1
+"fooo"
+127.0.0.1:6379> get key2
+"buuu"
+127.0.0.1:6379> bitop XOR dest3 key1 key2
+(integer) 4
+127.0.0.1:6379> get dest3
+"\x04\x1a\x1a\x1a"
+127.0.0.1:6379> bitop NOT dest4 dest3
+(integer) 4
+127.0.0.1:6379> get dest4
+"\xfb\xe5\xe5\xe5"
+127.0.0.1:6379>
 ```
-##### BITPOS key bit [start] [end] - Find first bit set or clear in a string
+
+##### BITPOS key bit [start] [end] - Find first bit set or clear in a string | Time complexity: O(N)
 ```
+127.0.0.1:6379> set position "\x04\x1a\x1a\x1a"
+OK
+127.0.0.1:6379> get position
+"\x04\x1a\x1a\x1a"
+127.0.0.1:6379> bitpos position 0
+(integer) 0
+127.0.0.1:6379> bitpos position 1 0
+(integer) 5
+127.0.0.1:6379> bitpos position 1 2
+(integer) 19
+127.0.0.1:6379> get position
+"\x04\x1a\x1a\x1a"
+127.0.0.1:6379> bitpos position 0 10
+(integer) -1
+127.0.0.1:6379> bitpos position 0 6
+(integer) -1
+127.0.0.1:6379> bitpos position 1 5
+(integer) -1
+127.0.0.1:6379> bitpos position 1 4
+(integer) -1
+127.0.0.1:6379> bitpos position 1 4
+(integer) -1
+127.0.0.1:6379> bitpos position 1 2
+(integer) 19
+127.0.0.1:6379> bitpos position 1 3
+(integer) 27
+127.0.0.1:6379> bitpos position 1 4
+(integer) -1
 ```
-##### DECR key - Decrement the integer value of a key by one
+
+##### DECR key - Decrement the integer value of a key by one | Time complexity: O(1)
 ```
+127.0.0.1:6379> set decrement 1986
+OK
+127.0.0.1:6379> get decrement
+"1986"
+127.0.0.1:6379> decr decrement
+(integer) 1985
+127.0.0.1:6379> get decrement
+"1985"
 ```
-##### DECRBY key decrement - Decrement the integer value of a key by the given number
+
+##### DECRBY key decrement - Decrement the integer value of a key by the given number | Time complexity: O(1)
 ```
+127.0.0.1:6379> set decrementBy 1986
+OK
+127.0.0.1:6379> decrby decrementBy 1000
+(integer) 986
+127.0.0.1:6379> DECRBY decrementBy 985
+(integer) -985                     **** WHAT ??? ****
+127.0.0.1:6379> get decrementby
+"-985"                             **** WHAT ??? ****
+127.0.0.1:6379> set key10 1000
+OK
+127.0.0.1:6379> DECR key10
+(integer) 999
+127.0.0.1:6379> DECR key10
+(integer) 998
+127.0.0.1:6379> DECRBY key10 10
+(integer) 988
+127.0.0.1:6379> DECRBY key10 100
+(integer) 888
 ```
-##### GET key -  Get the value of a key
+
+##### GET key -  Get the value of a key | Time complexity: O(1)
 ```
+127.0.0.1:6379> set ptr1 1986
+OK                  
+127.0.0.1:6379> get ptr1
+"1986"                          
 ```
-##### GETBIT key offset - Returns the bit value at offset in the string value stored at key
+
+##### GETBIT key offset - Returns the bit value at offset in the string value stored at key |  Time complexity: O(1)
 ```
+127.0.0.1:6379> setbit key11 7 1
+(integer) 0
+127.0.0.1:6379> getbit key11 0
+(integer) 0
+127.0.0.1:6379> getbit key11 7
+(integer) 1
+127.0.0.1:6379> getbit key11 2
+(integer) 0
+127.0.0.1:6379> getbit key11 8
+(integer) 0
 ```
-##### GETRANGE key start end - Get a substring of the string stored at a key
+
+##### GETRANGE key start end - Get a substring of the string stored at a key | Time complexity: O(N) & w/small string O(1)
 ```
+127.0.0.1:6379> set token Hola mundo
+(error) ERR syntax error
+127.0.0.1:6379> set token "Hola Mundo"
+OK
+127.0.0.1:6379> get token
+"Hola Mundo"
+127.0.0.1:6379> GETRANGE token 0 2
+"Hol"
+127.0.0.1:6379> GETRANGE token 0 -1
+"Hola Mundo"
+127.0.0.1:6379> getrange token 5 -1
+"Mundo"
+127.0.0.1:6379> getrange token 0 -6
+"Hola "
 ```
+
 ##### GETSET key value - Set the string value of a key and return its old value
 ```
 ```
