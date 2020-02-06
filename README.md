@@ -60,7 +60,9 @@ OK
 ### STRINGS
 
 ##### APPEND key value - Append a value to a key
+###### Time complexity: O(N)
 ```
+
 127.0.0.1:6379> exists var
 (integer) 0
 127.0.0.1:6379> append var 1986
