@@ -1,7 +1,8 @@
 # Commands for Redis Client | Windows cmd
 
 ## Index
-  * 
+  * [Connection](https://github.com/vicboma1/Redis-cli-commands/blob/master/README.md#connection)
+  * [Strings](https://github.com/vicboma1/Redis-cli-commands/blob/master/README.md#strings)
   
 ### Connection
 
