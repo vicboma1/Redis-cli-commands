@@ -268,45 +268,90 @@ OK
 "Hola "
 ```
 
-##### GETSET key value - Set the string value of a key and return its old value
+##### GETSET key value - Set the string value of a key and return its old value | Time complexity: O(1)
 ```
+127.0.0.1:6379> set pass "123telacomootravez"
+OK
+127.0.0.1:6379> get pass
+"123telacomootravez"
+127.0.0.1:6379> getset pass "0987"
+"123telacomootravez"
+127.0.0.1:6379> get pass
+"0987"
 ```
-##### INCR key - Increment the integer value of a key by one
+
+##### INCR key - Increment the integer value of a key by one | Time complexity: O(1)
 ```
+127.0.0.1:6379> set increment 1986
+OK
+127.0.0.1:6379> get increment
+"1986"
+127.0.0.1:6379> incr increment
+(integer) 1987
+127.0.0.1:6379> get increment
+"1987"
 ```
-##### INCRBY key increment - Increment the integer value of a key by the given amount
+
+##### INCRBY key increment - Increment the integer value of a key by the given amount | Time complexity: O(1)
 ```
+127.0.0.1:6379> set increment 1986
+OK
+127.0.0.1:6379> get increment
+"1986"
+127.0.0.1:6379> incrby increment 14
+(integer) 2000
+127.0.0.1:6379> get increment
+"2000"
 ```
-##### INCRBYFLOAT key increment - Increment the float value of a key by the given amount
+
+##### INCRBYFLOAT key increment - Increment the float value of a key by the given amount | Time complexity: O(1)
 ```
+127.0.0.1:6379> set myFloat 10.66
+OK
+127.0.0.1:6379> get myFloat
+"10.66"
+127.0.0.1:6379> INCRBYFLOAT myFloat -5
+"5.66"
+127.0.0.1:6379> INCRBYFLOAT myFloat 1.0e2
+"105.66"
 ```
+
 ##### MGET key [key ...] - Get the values of all the given keys
 ```
 ```
+
 ##### MSET key value [key value ...] - Set multiple keys to multiple values
 ```
 ```
+
 ##### MSETNX key value [key value ...] - Set multiple keys to multiple values, only if none of the keys exist
 ```
 ```
+
 ##### PSETEX key milliseconds value - Set the value and expiration in milliseconds of a key
 ```
 ```
+
 ##### SET key value [EX seconds|PX milliseconds] [NX|XX] [KEEPTTL] - Set the string value of a key
 ```
 ```
+
 ##### SETBIT key offset value - Sets or clears the bit at offset in the string value stored at key
 ```
 ```
+
 ##### SETEX key seconds value - Set the value and expiration of a key
 ```
 ```
+
 ##### SETNX key value - Set the value of a key, only if the key does not exist
 ```
 ```
+
 ##### SETRANGE key offset value - Overwrite part of a string at key starting at the specified offset
 ```
 ```
+
 ##### STRLEN key - Get the length of the value stored in a key
 ```
 ```
