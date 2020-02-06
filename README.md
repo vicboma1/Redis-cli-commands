@@ -1,6 +1,9 @@
 # Commands for Redis Client | Windows cmd
 
-## Connection
+## Index
+  * 
+  
+### Connection
 
 ECHO message - Echo the given string
 ```
@@ -51,3 +54,81 @@ QUIT - Close the connection
 ```
 127.0.0.1:6379>quit -
 ```
+
+
+### STRINGS
+APPEND key value - Append a value to a key
+```
+```
+BITCOUNT key [start end] - Count set bits in a string
+```
+```
+BITFIELD key [GET type offset] [SET type offset value] [INCRBY type offset increment] [OVERFLOW WRAP|SAT|FAIL]
+Perform arbitrary bitfield integer operations on strings
+```
+```
+BITOP operation destkey key [key ...] - Perform bitwise operations between strings
+```
+```
+BITPOS key bit [start] [end] - Find first bit set or clear in a string
+```
+```
+DECR key - Decrement the integer value of a key by one
+```
+```
+DECRBY key decrement - Decrement the integer value of a key by the given number
+```
+```
+GET key -  Get the value of a key
+```
+```
+GETBIT key offset - Returns the bit value at offset in the string value stored at key
+```
+```
+GETRANGE key start end - Get a substring of the string stored at a key
+```
+```
+GETSET key value - Set the string value of a key and return its old value
+```
+```
+INCR key - Increment the integer value of a key by one
+```
+```
+INCRBY key increment - Increment the integer value of a key by the given amount
+```
+```
+INCRBYFLOAT key increment - Increment the float value of a key by the given amount
+```
+```
+MGET key [key ...] - Get the values of all the given keys
+```
+```
+MSET key value [key value ...] - Set multiple keys to multiple values
+```
+```
+MSETNX key value [key value ...] - Set multiple keys to multiple values, only if none of the keys exist
+```
+```
+PSETEX key milliseconds value - Set the value and expiration in milliseconds of a key
+```
+```
+SET key value [EX seconds|PX milliseconds] [NX|XX] [KEEPTTL] - Set the string value of a key
+```
+```
+SETBIT key offset value - Sets or clears the bit at offset in the string value stored at key
+```
+```
+SETEX key seconds value - Set the value and expiration of a key
+```
+```
+SETNX key value - Set the value of a key, only if the key does not exist
+```
+```
+SETRANGE key offset value - Overwrite part of a string at key starting at the specified offset
+```
+```
+STRLEN key - Get the length of the value stored in a key
+```
+```
+
+
