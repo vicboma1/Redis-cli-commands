@@ -91,9 +91,36 @@ OK
 (integer) 33
 ```
 
-##### BITFIELD key [GET type offset] [SET type offset value] [INCRBY type offset increment] [OVERFLOW WRAP|SAT|FAIL] Perform arbitrary bitfield integer operations on strings
+##### BITFIELD key [GET type offset] [SET type offset value] [INCRBY type offset increment] [OVERFLOW WRAP|SAT|FAIL] Perform arbitrary bitfield integer operations on strings | Time complexity: O(1)
 ```
-
+127.0.0.1:6379> set iterator 0123456789
+OK
+127.0.0.1:6379> bitfield iterator incrby i5 100 1 get u4 0
+1) (integer) 1
+2) (integer) 3
+127.0.0.1:6379> bitfield iterator incrby i1 100 1 get u1 0
+1) (integer) -1
+2) (integer) 0
+127.0.0.1:6379> bitfield iterator incrby u2 100 1 OVERFLOW SAT incrby u2 102 1
+1) (integer) 3
+2) (integer) 1
+127.0.0.1:6379> bitfield iterator incrby u2 100 1 OVERFLOW SAT incrby u2 102 1
+1) (integer) 0
+2) (integer) 2
+127.0.0.1:6379> bitfield iterator incrby u2 100 1 OVERFLOW SAT incrby u2 102 1
+1) (integer) 1
+2) (integer) 3
+127.0.0.1:6379> bitfield iterator incrby u2 100 1 OVERFLOW SAT incrby u2 102 1
+1) (integer) 2
+2) (integer) 3
+127.0.0.1:6379> bitfield iterator incrby u2 100 1 OVERFLOW SAT incrby u2 102 1
+1) (integer) 3
+2) (integer) 3
+127.0.0.1:6379> bitfield iterator incrby u2 100 1 OVERFLOW SAT incrby u2 102 1
+1) (integer) 0
+2) (integer) 3
+127.0.0.1:6379> get iterator
+"0123456789\x00\x00\x03\x80"
 ```
 
 ##### BITOP operation destkey key [key ...] - Perform bitwise operations between strings
