@@ -59,10 +59,8 @@ OK
 
 ### STRINGS
 
-##### APPEND key value - Append a value to a key
-###### Time complexity: O(N)
+##### APPEND key value - Append a value to a key |  Time complexity: O(1)
 ```
-
 127.0.0.1:6379> exists var
 (integer) 0
 127.0.0.1:6379> append var 1986
@@ -73,7 +71,7 @@ OK
 "1986-02-04"
 ```
 
-##### BITCOUNT key [start end] - Count set bits in a string
+##### BITCOUNT key [start end] - Count set bits in a string | Time complexity: O(N)
 ```
 27.0.0.1:6379> set var3 "vicboma1"
 OK
@@ -93,9 +91,8 @@ OK
 (integer) 33
 ```
 
-##### BITFIELD key [GET type offset] [SET type offset value] [INCRBY type offset increment] [OVERFLOW WRAP|SAT|FAIL]
-Perform arbitrary bitfield integer operations on strings
-``
+##### BITFIELD key [GET type offset] [SET type offset value] [INCRBY type offset increment] [OVERFLOW WRAP|SAT|FAIL] Perform arbitrary bitfield integer operations on strings
+```
 
 ```
 
