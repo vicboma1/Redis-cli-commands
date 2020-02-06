@@ -61,6 +61,14 @@ OK
 
 ##### APPEND key value - Append a value to a key
 ```
+127.0.0.1:6379> exists var
+(integer) 0
+127.0.0.1:6379> append var 1986
+(integer) 4
+127.0.0.1:6379> append var -02-04
+(integer) 10
+127.0.0.1:6379> get var
+"1986-02-04"
 ```
 ##### BITCOUNT key [start end] - Count set bits in a string
 ```
