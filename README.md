@@ -422,7 +422,7 @@ OK
 "1\x10"
 ```
 
-##### SETEX key seconds value - Set the value and expiration of a key
+##### SETEX key seconds value - Set the value and expiration of a key | Time complexity: O(1)
 ```
 127.0.0.1:6379> setex str 4 vicbo
 OK
@@ -432,16 +432,38 @@ OK
 (nil)
 ```
 
-##### SETNX key value - Set the value of a key, only if the key does not exist
+##### SETNX key value - Set the value of a key, only if the key does not exist | Time complexity: O(1)
 ```
+127.0.0.1:6379> setnx hola hola
+(integer) 1
+127.0.0.1:6379> setnx hola hello
+(integer) 0
+127.0.0.1:6379> get hola
+"hola"
 ```
 
-##### SETRANGE key offset value - Overwrite part of a string at key starting at the specified offset
+##### SETRANGE key offset value - Overwrite part of a string at key starting at the specified offset | Time complexity: O(1)
 ```
+127.0.0.1:6379> set key10 vicboma1
+OK
+127.0.0.1:6379> setrange key10 8 !
+(integer) 9
+127.0.0.1:6379> get key10
+"vicboma1!"
+127.0.0.1:6379> setrange key10 10 ???
+(integer) 13
+127.0.0.1:6379> get key10
+"vicboma1!\x00???"
 ```
 
-##### STRLEN key - Get the length of the value stored in a key
+##### STRLEN key - Get the length of the value stored in a key | Time complexity: O(1)
 ```
+redis> SET str "Hello world"
+"OK"
+redis> STRLEN str
+(integer) 11
+redis> STRLEN newStr
+(integer) 0
 ```
 
 
