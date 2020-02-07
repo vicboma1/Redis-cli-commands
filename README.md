@@ -380,16 +380,56 @@ OK
 (nil)
 ```
 
-##### SET key value [EX seconds|PX milliseconds] [NX|XX] [KEEPTTL] - Set the string value of a key
+##### SET key value [EX seconds|PX milliseconds] [NX|XX] [KEEPTTL] - Set the string value of a key | Time complexity: O(1)
 ```
+127.0.0.1:6379> set str vicboma1
+OK
+127.0.0.1:6379> get str
+"vicboma1"
+127.0.0.1:6379> set str vicboma1 EX 5
+OK
+127.0.0.1:6379> get str
+"vicboma1"
+127.0.0.1:6379> get str
+"vicboma1"
+127.0.0.1:6379> get str
+(nil)
+127.0.0.1:6379> set str vicboma1 PX 1000
+OK
+127.0.0.1:6379> get str
+(nil)
+127.0.0.1:6379> set str vicboma PX 2000
+OK
+127.0.0.1:6379> get str
+"vicboma"
+127.0.0.1:6379> get str
+(nil)
 ```
 
-##### SETBIT key offset value - Sets or clears the bit at offset in the string value stored at key
+##### SETBIT key offset value - Sets or clears the bit at offset in the string value stored at key | Time complexity: O(1)
 ```
+127.0.0.1:6379> set key10 10
+OK
+127.0.0.1:6379> get key10
+"10"
+127.0.0.1:6379> setbit key10 10 1
+(integer) 1
+127.0.0.1:6379> setbit key10 10 0
+(integer) 1
+127.0.0.1:6379> setbit key10 5
+(error) ERR bit is not an integer or out of range
+127.0.0.1:6379> get key10
+"1\x10"
 ```
 
 ##### SETEX key seconds value - Set the value and expiration of a key
 ```
+127.0.0.1:6379> setex str 4 vicbo
+OK
+127.0.0.1:6379> get str
+"vicbo"
+127.0.0.1:6379> get str
+(nil)
 ```
 
 ##### SETNX key value - Set the value of a key, only if the key does not exist
@@ -399,6 +439,17 @@ OK
 ##### SETRANGE key offset value - Overwrite part of a string at key starting at the specified offset
 ```
 ```
+
+##### STRLEN key - Get the length of the value stored in a key
+```
+```
+
+
+
+
+
+
+
 
 ##### STRLEN key - Get the length of the value stored in a key
 ```
