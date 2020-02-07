@@ -559,7 +559,7 @@ redis> STRLEN newStr
 ```
 ```
 
-##### ##### WAIT numreplicas timeout -Wait for the synchronous replication of all the write commands sent in the context of the current connection
+##### WAIT numreplicas timeout -Wait for the synchronous replication of all the write commands sent in the context of the current connection
 ```
 ```
 
