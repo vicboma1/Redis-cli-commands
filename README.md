@@ -898,20 +898,46 @@ redis 127.0.0.1:6379> scan 2
 
 #### Hash
 
-##### HDEL key field [field ...] - Delete one or more hash fields
+##### HDEL key field [field ...] - Delete one or more hash fields | Time complexity: O(N) 
 ```
+redis 127.0.0.1:6379> Hset p1 p2 "vicboma!!"
+(integer) 1
+redis 127.0.0.1:6379> HDEL p1 p2
+(integer) 1
+redis 127.0.0.1:6379> HDEL p1 p3
+(integer) 0
+redis 127.0.0.1:6379> HDEL p1 p2
+(integer) 0
 ```
 
-##### HEXISTS key field - Determine if a hash field exists
+##### HEXISTS key field - Determine if a hash field exists | Time complexity: O(1)
 ```
-```
-
-##### HGET key field - Get the value of a hash field
-```
+redis 127.0.0.1:6379> HExists p1 p2
+(integer) 1
 ```
 
-##### HGETALL key - Get all the fields and values in a hash
+##### HGET key field - Get the value of a hash field | Time complexity: O(1)
 ```
+redis 127.0.0.1:6379> Hset p1 p2 "vicboma!!"
+(integer) 1
+redis 127.0.0.1:6379> HGET p1 p2
+"vicboma!!"
+```
+
+##### HGETALL key - Get all the fields and values in a hash | Time complexity: O(N)
+```
+redis 127.0.0.1:6379> HSET p1 field "Hello"
+(integer) 1
+redis 127.0.0.1:6379> HSET p1 field2 "World!"
+(integer) 1
+redis 127.0.0.1:6379> HGETALL p1
+1) "p2"
+2) "vicboma!!"
+3) "field"
+4) "Hello"
+5) "field2"
+6) "World!"
+redis 127.0.0.1:6379>
 ```
 
 ##### HINCRBY key field increment - Increment the integer value of a hash field by the given number
