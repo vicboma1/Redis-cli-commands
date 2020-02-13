@@ -472,44 +472,207 @@ redis> STRLEN newStr
 
 #### Key
 
-##### DEL key [key ...] - Delete a key
+##### DEL key [key ...] - Delete a key | Time complexity: O(N) > 1 or O(1) == 1
 ```
+redis 127.0.0.1:6379> C:UsersvbolinchDownloads32bitredis-check-aof.exe
+(error) ERR unknown command 'C:UsersvbolinchDownloads32bitredis-check-aof.exe'
+redis 127.0.0.1:6379> C:UsersvbolinchDownloads32bitredis-check-dump.exe
+(error) ERR unknown command 'C:UsersvbolinchDownloads32bitredis-check-dump.exe'
+redis 127.0.0.1:6379> set p1 vicboma1
+OK
+redis 127.0.0.1:6379> get p1
+"vicboma1"
+redis 127.0.0.1:6379> set p2 bol
+OK
+redis 127.0.0.1:6379> get p2
+"bol"
+redis 127.0.0.1:6379> set p3 pppp
+OK
+redis 127.0.0.1:6379> get p3
+"pppp"
+redis 127.0.0.1:6379> del p1 p2
+(integer) 2
+redis 127.0.0.1:6379> get p1
+(nil)
+redis 127.0.0.1:6379> get p2
+(nil)
+redis 127.0.0.1:6379> get p3
+"pppp"
 ```
 
-##### DUMP key - Return a serialized version of the value stored at the specified key.
+##### DUMP key - Return a serialized version of the value stored at the specified key. | Time complexity: O(1) to access the key and additional O(N*M) to serialized it
 ```
-```
-
-##### EXISTS key [key ...] - Determine if a key exists
-```
-```
-
-##### EXPIRE key seconds - Set a key's time to live in seconds
-```
+redis 127.0.0.1:6379> get p3
+"pppp"
+redis 127.0.0.1:6379> dump p3
+"\x00\x04pppp\a\x00\x8c\xf6\xe0L\xfb\xee\x90s"
 ```
 
-##### EXPIREAT key timestamp - Set the expiration for a key as a UNIX timestamp
+##### EXISTS key [key ...] - Determine if a key exists | Time complexity: O(1)
 ```
+redis 127.0.0.1:6379> EXISTS p3
+(integer) 1
+redis 127.0.0.1:6379> EXISTS p2
+(integer) 0
+redis 127.0.0.1:6379> set p2 eeee
+OK
+redis 127.0.0.1:6379> get p3
+"pppp"
+redis 127.0.0.1:6379> get p2
+"eeee"
+redis 127.0.0.1:6379> EXISTS p2 p3
+(integer) 2
 ```
 
-##### KEYS pattern - Find all keys matching the given pattern
+##### EXPIRE key seconds - Set a key's time to live in seconds | Time complexity: O(1)
 ```
+redis 127.0.0.1:6379> set p3 "hi"
+OK
+redis 127.0.0.1:6379> get p3
+"hi"
+redis 127.0.0.1:6379> expire p3 10
+(integer) 1
+redis 127.0.0.1:6379> ttl p3
+(integer) 6
+redis 127.0.0.1:6379> ttl p3
+(integer) 1
+redis 127.0.0.1:6379> ttl p3
+(integer) -2
+redis 127.0.0.1:6379> get p3
+(nil)
+```
+
+##### EXPIREAT key timestamp - Set the expiration for a key as a UNIX timestamp | Time complexity: O(1)
+```
+redis 127.0.0.1:6379> set p3 hello
+OK
+redis 127.0.0.1:6379> EXPIREAT p3 10
+(integer) 1
+redis 127.0.0.1:6379> ttl p3
+(integer) -2
+redis 127.0.0.1:6379> get p3
+(nil)
+```
+
+##### KEYS pattern - Find all keys matching the given pattern | Time complexity: O(N)
+```
+redis 127.0.0.1:6379> mset victor bolinches marin 1986
+OK
+redis 127.0.0.1:6379> keys *i*
+1) "iterator"
+2) "noexist"
+3) "it"
+4) "apellido"
+5) "victor"
+6) "position"
+7) "marin"
+redis 127.0.0.1:6379> keys i?
+1) "it"
+redis 127.0.0.1:6379> keys *
+ 1) "iterator"
+ 2) "myFloat"
+ 3) "key"
+ 4) "noexist"
+ 5) "var3"
+ 6) "dest2"
+ 7) "token"
+ 8) "decrement"
+ 9) "key2"
+10) "decrementBy"
+11) "hola"
+12) "it"
+13) "apellido"
+14) "pass"
+15) "decrementby"
+16) "name"
+17) "newVar2"
+18) "key10"
+19) "newStr"
+20) "dest4"
+21) "victor"
+22) "position"
+23) "key11"
+24) "dest3"
+25) "marin"
+26) "var"
+27) "newValue"
+28) "hello"
+29) "newVar1"
+30) "p2"
+31) "dest"
+32) "key1"
 ```
 
 ##### MIGRATE host port key|"" destination-db timeout [COPY] [REPLACE] [AUTH password] [KEYS key [key ...]] - Atomically transfer a key from a Redis instance to another one.
 ```
+redis 127.0.0.1:6379>  --raw KEYS '*' | xargs redis-cli MIGRATE 192.168.0.0 6379 "" 0 5000 KEYS
+OK
+redis 127.0.0.1:6379>  --raw KEYS '*' | xargs redis-cli MIGRATE 192.168.0.0 6379 "" 0 5000 AUTH redisdatabase KEYS
+OK
 ```
 
-##### MOVE key db - Move a key to another database
+##### MOVE key db - Move a key to another database | Time complexity: O(1)
 ```
+redis 127.0.0.1:6379[2]> select  0
+OK
+redis 127.0.0.1:6379> set varDatabase1 "hi"
+OK
+redis 127.0.0.1:6379> get varDatabase1
+"hi"
+redis 127.0.0.1:6379> select 4
+OK
+redis 127.0.0.1:6379[4]> get varDatabase1
+(nil)
+redis 127.0.0.1:6379[4]> select 0
+OK
+redis 127.0.0.1:6379> get varDatabase1
+"hi"
+redis 127.0.0.1:6379> move varDatabase1 4
+(integer) 1
+redis 127.0.0.1:6379> select 4
+OK
+redis 127.0.0.1:6379[4]> get varDatabase1
+"hi"
 ```
 
-##### OBJECT subcommand [arguments [arguments ...]] - Inspect the internals of Redis objects
+##### OBJECT subcommand [arguments [arguments ...]] - Inspect the internals of Redis objects | Time complexity: O(1)
 ```
+redis 127.0.0.1:6379[4]> set p1 12345
+OK
+redis 127.0.0.1:6379[4]> object encoding p1
+"int"
+redis 127.0.0.1:6379[4]> set str "hola"
+OK
+redis 127.0.0.1:6379[4]> object enconding str
+(error) ERR Syntax error. Try OBJECT (refcount|encoding|idletime)
+redis 127.0.0.1:6379[4]> object refcount str
+(integer) 1
+redis 127.0.0.1:6379[4]> object encoding str
+"embstr"
+redis 127.0.0.1:6379[4]> object idletime str
+(integer) 59
+redis 127.0.0.1:6379[4]> append p1 str
+(integer) 8
+redis 127.0.0.1:6379[4]> object encoding p1
+"raw"
+redis 127.0.0.1:6379[4]> object encoding str
+"embstr"
 ```
 
-##### PERSIST key - Remove the expiration from a key
+##### PERSIST key - Remove the expiration from a key | Time complexity: O(1)
 ```
+redis 127.0.0.1:6379[4]> set pTime hola
+OK
+redis 127.0.0.1:6379[4]> expire pTime 10
+(integer) 1
+redis 127.0.0.1:6379[4]> ttl pTime
+(integer) 6
+redis 127.0.0.1:6379[4]> persist pTime
+(integer) 1
+redis 127.0.0.1:6379[4]> ttl pTime
+(integer) -1
+redis 127.0.0.1:6379[4]> get pTime
+"hola"
 ```
 
 ##### PEXPIRE key milliseconds - Set a key's time to live in milliseconds
