@@ -675,28 +675,84 @@ redis 127.0.0.1:6379[4]> get pTime
 "hola"
 ```
 
-##### PEXPIRE key milliseconds - Set a key's time to live in milliseconds
+##### PEXPIRE key milliseconds - Set a key's time to live in milliseconds | Time complexity: O(1)
 ```
-```
-
-##### PEXPIREAT key milliseconds-timestamp - Set the expiration for a key as a UNIX timestamp specified in milliseconds
-```
-```
-
-##### PTTL key - Get the time to live for a key in milliseconds
-```
-```
-
-##### RANDOMKEY - Return a random key from the keyspace
-```
-```
-
-##### RENAME key newkey - Rename a key
-```
+redis 127.0.0.1:6379> set p3 "hi"
+OK
+redis 127.0.0.1:6379> get p3
+"hi"
+redis 127.0.0.1:6379> PEXPIRE p3 10000
+(integer) 1
+redis 127.0.0.1:6379> ttl p3
+(integer) 5986
+redis 127.0.0.1:6379> ttl p3
+(integer) 2564
+redis 127.0.0.1:6379> ttl p3
+(integer) -2142
+redis 127.0.0.1:6379> get p3
+(nil)
 ```
 
-##### RENAMENX key newkey - Rename a key, only if the new key does not exist
+##### PEXPIREAT key milliseconds-timestamp - Set the expiration for a key as a UNIX timestamp specified in milliseconds | Time complexity: O(1)
 ```
+redis 127.0.0.1:6379> set p3 hello
+OK
+redis 127.0.0.1:6379> PEXPIREAT p3 2025122225214
+(integer) 1
+redis 127.0.0.1:6379> ttl p3
+(integer) -2
+redis 127.0.0.1:6379> get p3
+(nil)
+```
+
+##### PTTL key - Get the time to live for a key in milliseconds | Time complexity: O(1)
+```
+redis 127.0.0.1:6379[1]> set str "hi"
+OK
+redis 127.0.0.1:6379[1]> expire str 10
+(integer) 1
+redis 127.0.0.1:6379[1]> pttl str
+(integer) 6696
+redis 127.0.0.1:6379[1]> pttl str
+(integer) 1575
+redis 127.0.0.1:6379[1]> pttl str
+(integer) -2
+```
+
+##### [RANDOMKEY](http://redisdoc.com/database/randomkey.html) - Return a random key from the keyspace | Time complexity: O(1)
+```
+redis 127.0.0.1:6379[1]> mset a "a" b "b" c "c"
+OK
+redis 127.0.0.1:6379[1]> randomkey
+"b"
+redis 127.0.0.1:6379[1]> randomkey
+"c"
+redis 127.0.0.1:6379[1]> keys *
+1) "c"
+2) "b"
+3) "a"
+```
+
+##### RENAME key newkey - Rename a key | Time complexity: O(1)
+```
+redis 127.0.0.1:6379[1]> get p1
+(nil)
+redis 127.0.0.1:6379[1]> get a
+"a"
+redis 127.0.0.1:6379[1]> rename a aaaa
+OK
+redis 127.0.0.1:6379[1]> get a
+(nil)
+redis 127.0.0.1:6379[1]> get aaaa
+"a"
+```
+
+##### RENAMENX key newkey - Rename a key, only if the new key does not exist | Time complexity: O(1)
+```
+redis 127.0.0.1:6379[1]> renamenx aaaa noexistsvalu
+(integer) 1
+redis 127.0.0.1:6379[1]> get noexistsvalu
+"a"
 ```
 
 ##### RESTORE key ttl serialized-value [REPLACE] [ABSTTL] [IDLETIME seconds] [FREQ frequency] - Create a key using the provided serialized value, previously obtained using DUMP.
