@@ -3,7 +3,7 @@
 ## Index
   * [Connection](https://github.com/vicboma1/Redis-cli-commands/blob/master/README.md#connection)
   * [Strings](https://github.com/vicboma1/Redis-cli-commands/blob/master/README.md#strings)
-  * [Key]()
+  * [Key](https://github.com/vicboma1/Redis-cli-commands/blob/master/README.md#key)
   
 ### Connection
 
