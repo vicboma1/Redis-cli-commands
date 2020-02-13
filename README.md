@@ -755,35 +755,141 @@ redis 127.0.0.1:6379[1]> get noexistsvalu
 "a"
 ```
 
-##### RESTORE key ttl serialized-value [REPLACE] [ABSTTL] [IDLETIME seconds] [FREQ frequency] - Create a key using the provided serialized value, previously obtained using DUMP.
+##### RESTORE key ttl serialized-value [REPLACE] [ABSTTL] [IDLETIME seconds] [FREQ frequency] - Create a key using the provided serialized value, previously obtained using DUMP. Time complexity: O(1) to create the new key and additional O(N*M)
 ```
+redis 127.0.0.1:6379[1]> set p1 Hello
+OK
+redis 127.0.0.1:6379[1]> get p1
+"Hello"
+redis 127.0.0.1:6379[1]> dump p1
+"\x00\x05Hello\a\x00C\xfb\"\x1b5\xcf*\x99"
+redis 127.0.0.1:6379[1]> del p1
+(integer) 1
+redis 127.0.0.1:6379[1]> restore p1 0 "\x00\x05Hello\a\x00C\xfb\"\x1b5\xcf*\x99"
+OK
+redis 127.0.0.1:6379[1]> type p1
+"embstr"
 ```
 
-##### SORT key [BY pattern]  - [LIMIT offset count] [GET pattern [GET pattern ...]] [ASC|DESC] [ALPHA] [STORE destination] Sort the elements in a list, set or sorted set
+##### SORT key [BY pattern]  - [LIMIT offset count] [GET pattern [GET pattern ...]] [ASC|DESC] [ALPHA] [STORE destination] Sort the elements in a list, set or sorted set | Time complexity: O(N+M*log(M))
 ```
+redis 127.0.0.1:6379[1]> lpush list a
+(integer) 1
+redis 127.0.0.1:6379[1]> lpush list b
+(integer) 2
+redis 127.0.0.1:6379[1]> lpush list v
+(integer) 3
+redis 127.0.0.1:6379[1]> lpush list z
+(integer) 4
+redis 127.0.0.1:6379[1]> rlange list 0 1
+(error) ERR unknown command 'rlange'
+redis 127.0.0.1:6379[1]> rlange list 0 -1
+(error) ERR unknown command 'rlange'
+redis 127.0.0.1:6379[1]> lrange list 0 -1
+1) "z"
+2) "v"
+3) "b"
+4) "a"
+redis 127.0.0.1:6379[1]> SORT list ALPHA
+1) "a"
+2) "b"
+3) "v"
+4) "z"
 ```
 
-##### TOUCH key [key ...] - Alters the last access time of a key(s). Returns the number of existing keys specified.
+##### TOUCH key [key ...] - Alters the last access time of a key(s). Returns the number of existing keys specified | Time complexity: O(N)
 ```
+redis 127.0.0.1:6379[1]> lrange list 0 1
+1) "z"
+2) "v"
+redis 127.0.0.1:6379[1]> touch list
+(integer) 1
+redis 127.0.0.1:6379[1]> touch list p1 p2
+(integer) 1
+redis 127.0.0.1:6379[1]> set key1 oooo
+OK
+redis 127.0.0.1:6379[1]> touch list p1 p2 key1
+(integer) 2
 ```
 
 ##### TTL key - Get the time to live for a key
 ```
+redis 127.0.0.1:6379[3]> SET mykey "Hello"
+"OK"
+redis 127.0.0.1:6379[3]> EXPIRE mykey 10
+(integer) 1
+redis 127.0.0.1:6379[3]> TTL mykey
+(integer) 10
 ```
 
-##### TYPE key - Determine the type stored at key
+##### TYPE key - Determine the type stored at key | Time complexity: O(1)
 ```
-```
-##### UNLINK key [key ...] - Delete a key asynchronously in another thread. Otherwise it is just as DEL, but non blocking.
-```
+redis 127.0.0.1:6379[3]> SET key1 "value"
+"OK"
+redis 127.0.0.1:6379[3]> LPUSH key2 "value"
+(integer) 1
+redis 127.0.0.1:6379[3]> SADD key3 "value"
+(integer) 1
+redis 127.0.0.1:6379[3]> TYPE key1
+"string"
+redis 127.0.0.1:6379[3]> TYPE key2
+"list"
+redis 127.0.0.1:6379[3]> TYPE key3
+"set"
 ```
 
-##### WAIT numreplicas timeout -Wait for the synchronous replication of all the write commands sent in the context of the current connection
+##### UNLINK key [key ...] - Delete a key asynchronously in another thread. Otherwise it is just as DEL, but non blocking | Time complexity: O(1)
 ```
+No  working :C 
+Available since 4.0.0.
+```
+
+##### WAIT numreplicas timeout -Wait for the synchronous replication of all the write commands sent in the context of the current connection | Time complexity: O(1)
+```
+redis 127.0.0.1:6379[3]> SET foo bar
+OK
+redis 127.0.0.1:6379[3]> WAIT 1 0 -> forever
 ```
 
 ##### SCAN cursor [MATCH pattern] [COUNT count] [TYPE type] - Incrementally iterate the keys space
 ```
+redis 127.0.0.1:6379> scan 0
+1) "38"
+2)  1) "dest3"
+    2) "dest2"
+    3) "var3"
+    4) "apellido"
+    5) "newVar1"
+    6) "noexist"
+    7) "key"
+    8) "hola"
+    9) "newValue"
+   10) "token"
+redis 127.0.0.1:6379> scan 1
+1) "51"
+2)  1) "myFloat"
+    2) "iterator"
+    3) "decrementBy"
+    4) "key2"
+    5) "var"
+    6) "marin"
+    7) "dest4"
+    8) "dest"
+    9) "p2"
+   10) "newStr"
+   11) "key10"
+redis 127.0.0.1:6379> scan 2
+1) "30"
+2)  1) "noexist"
+    2) "key"
+    3) "hola"
+    4) "newValue"
+    5) "token"
+    6) "key11"
+    7) "victor"
+    8) "position"
+    9) "decrementby"
+   10) "pass"
 ```
 
 
